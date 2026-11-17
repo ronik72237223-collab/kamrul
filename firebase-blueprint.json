@@ -1,0 +1,139 @@
+{
+  "entities": {
+    "AppConfig": {
+      "title": "AppConfig",
+      "description": "Global application settings controlled dynamically by the Super Admin",
+      "type": "object",
+      "properties": {
+        "appName": { "type": "string" },
+        "aratName": { "type": "string" },
+        "defaultCommissionPercent": { "type": "number" },
+        "defaultKuliRate": { "type": "number" },
+        "welcomeBanner": { "type": "string" },
+        "qualityGrades": { "type": "array" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["appName", "aratName", "defaultCommissionPercent", "defaultKuliRate", "welcomeBanner", "qualityGrades", "updatedAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Registered supervisor user profile for admin directory and isolation",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "aratName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "email", "displayName", "aratName", "createdAt", "updatedAt"]
+    },
+    "CalculatorDraft": {
+      "title": "CalculatorDraft",
+      "description": "Active daily calculator draft persisted per user",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "dateText": { "type": "string" },
+        "displayDate": { "type": "string" },
+        "aratName": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "grades": { "type": "array" },
+        "commissionPercent": { "type": "number" },
+        "kuliExpense": { "type": "number" },
+        "otherExpense": { "type": "number" },
+        "chalanNote": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "signatureText": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "dateText", "displayDate", "aratName", "supplierName", "grades", "commissionPercent", "kuliExpense", "otherExpense", "chalanNote", "paymentMethod", "signatureText", "updatedAt"]
+    },
+    "AratLedger": {
+      "title": "AratLedger",
+      "description": "Saved daily accounting ledger entry with soft-delete support for Recycle Bin",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "dateText": { "type": "string" },
+        "displayDate": { "type": "string" },
+        "aratName": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "grades": { "type": "array" },
+        "commissionPercent": { "type": "number" },
+        "kuliExpense": { "type": "number" },
+        "otherExpense": { "type": "number" },
+        "chalanNote": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "signatureText": { "type": "string" },
+        "totalCartons": { "type": "integer" },
+        "totalWeightKg": { "type": "number" },
+        "grossSales": { "type": "number" },
+        "commissionAmount": { "type": "number" },
+        "netPayable": { "type": "number" },
+        "deleted": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "dateText", "displayDate", "aratName", "supplierName", "grades", "commissionPercent", "kuliExpense", "otherExpense", "chalanNote", "paymentMethod", "signatureText", "totalCartons", "totalWeightKg", "grossSales", "commissionAmount", "netPayable", "deleted", "createdAt", "updatedAt"]
+    },
+    "DailyExpense": {
+      "title": "DailyExpense",
+      "description": "Supervisor daily expense entry (auto fare, breakfast, labor, misc)",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "dateText": { "type": "string" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "amount": { "type": "number" },
+        "deleted": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "dateText", "category", "description", "amount", "deleted", "createdAt", "updatedAt"]
+    },
+    "TrashCalculatorItem": {
+      "title": "TrashCalculatorItem",
+      "description": "Deleted calculator grade or carton weight entry stored for 1-tap restore",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "itemType": { "type": "string", "enum": ["CARTON", "GRADE"] },
+        "gradeName": { "type": "string" },
+        "weightKg": { "type": "number" },
+        "ratePerKg": { "type": "number" },
+        "cartonWeights": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "itemType", "gradeName", "weightKg", "ratePerKg", "cartonWeights", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/app_config/{configId}": {
+      "schema": "AppConfig",
+      "description": "Global dynamic app configuration document ('global')"
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Authenticated user profile document"
+    },
+    "/users/{userId}/drafts/{draftId}": {
+      "schema": "CalculatorDraft",
+      "description": "User's active calculator draft"
+    },
+    "/users/{userId}/ledgers/{ledgerId}": {
+      "schema": "AratLedger",
+      "description": "User-isolated daily accounting ledgers"
+    },
+    "/users/{userId}/expenses/{expenseId}": {
+      "schema": "DailyExpense",
+      "description": "User-isolated daily hatkhoroch expenses"
+    },
+    "/users/{userId}/trash_items/{trashId}": {
+      "schema": "TrashCalculatorItem",
+      "description": "User-isolated deleted calculator items for Recycle Bin recovery"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "স্ট্রবেরি আড়ত প্রো",
+  "description": "স্ট্রবেরি আড়তের দৈনিক কার্টুন হিসাব, কোয়ালিটি গ্রেড, হাতখরচ, চালান, খাতা ও এক্সেল রিপোর্ট অ্যাপ",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

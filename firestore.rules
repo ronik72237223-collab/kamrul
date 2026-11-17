@@ -1,0 +1,195 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isSuperAdmin() {
+      return isSignedIn() && request.auth.uid == 'cs69FLrgVqMFNyKDqDth9BwZBKt1';
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidAppConfig(data) {
+      return data.appName is string && data.appName.size() >= 1 && data.appName.size() <= 60 &&
+             data.aratName is string && data.aratName.size() >= 1 && data.aratName.size() <= 100 &&
+             data.defaultCommissionPercent is number && data.defaultCommissionPercent >= 0 && data.defaultCommissionPercent <= 50 &&
+             data.defaultKuliRate is number && data.defaultKuliRate >= 0 && data.defaultKuliRate <= 100000 &&
+             data.welcomeBanner is string && data.welcomeBanner.size() <= 300 &&
+             data.qualityGrades is list && data.qualityGrades.size() >= 1 && data.qualityGrades.size() <= 20 &&
+             data.qualityGrades[0] is string &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidUserProfile(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.email is string && data.email.size() >= 3 && data.email.size() <= 150 &&
+             data.displayName is string && data.displayName.size() <= 80 &&
+             data.aratName is string && data.aratName.size() <= 100 &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidDraft(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.dateText is string && data.dateText.size() >= 1 && data.dateText.size() <= 30 &&
+             data.displayDate is string && data.displayDate.size() >= 1 && data.displayDate.size() <= 50 &&
+             data.aratName is string && data.aratName.size() <= 100 &&
+             data.supplierName is string && data.supplierName.size() <= 100 &&
+             data.grades is list && data.grades.size() <= 30 &&
+             data.commissionPercent is number && data.commissionPercent >= 0 && data.commissionPercent <= 100 &&
+             data.kuliExpense is number && data.kuliExpense >= 0 && data.kuliExpense <= 10000000 &&
+             data.otherExpense is number && data.otherExpense >= 0 && data.otherExpense <= 10000000 &&
+             data.chalanNote is string && data.chalanNote.size() <= 500 &&
+             data.paymentMethod is string && data.paymentMethod.size() >= 1 && data.paymentMethod.size() <= 50 &&
+             data.signatureText is string && data.signatureText.size() <= 100 &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidLedger(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.dateText is string && data.dateText.size() >= 1 && data.dateText.size() <= 30 &&
+             data.displayDate is string && data.displayDate.size() >= 1 && data.displayDate.size() <= 50 &&
+             data.aratName is string && data.aratName.size() <= 100 &&
+             data.supplierName is string && data.supplierName.size() <= 100 &&
+             data.grades is list && data.grades.size() <= 30 &&
+             data.commissionPercent is number && data.commissionPercent >= 0 && data.commissionPercent <= 100 &&
+             data.kuliExpense is number && data.kuliExpense >= 0 && data.kuliExpense <= 10000000 &&
+             data.otherExpense is number && data.otherExpense >= 0 && data.otherExpense <= 10000000 &&
+             data.chalanNote is string && data.chalanNote.size() <= 500 &&
+             data.paymentMethod is string && data.paymentMethod.size() >= 1 && data.paymentMethod.size() <= 50 &&
+             data.signatureText is string && data.signatureText.size() <= 100 &&
+             data.totalCartons is int && data.totalCartons >= 0 && data.totalCartons <= 100000 &&
+             data.totalWeightKg is number && data.totalWeightKg >= 0 && data.totalWeightKg <= 1000000 &&
+             data.grossSales is number && data.grossSales >= 0 && data.grossSales <= 100000000 &&
+             data.commissionAmount is number && data.commissionAmount >= 0 && data.commissionAmount <= 100000000 &&
+             data.netPayable is number && data.netPayable >= -100000000 && data.netPayable <= 100000000 &&
+             data.deleted is bool &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidExpense(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.dateText is string && data.dateText.size() >= 1 && data.dateText.size() <= 30 &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 60 &&
+             data.description is string && data.description.size() <= 200 &&
+             data.amount is number && data.amount >= 0 && data.amount <= 10000000 &&
+             data.deleted is bool &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidTrashItem(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.itemType is string && (data.itemType == 'CARTON' || data.itemType == 'GRADE') &&
+             data.gradeName is string && data.gradeName.size() >= 1 && data.gradeName.size() <= 60 &&
+             data.weightKg is number && data.weightKg >= 0 && data.weightKg <= 10000 &&
+             data.ratePerKg is number && data.ratePerKg >= 0 && data.ratePerKg <= 1000000 &&
+             data.cartonWeights is list && data.cartonWeights.size() <= 500 &&
+             data.createdAt is timestamp && data.createdAt <= request.time;
+    }
+
+    match /app_config/{configId} {
+      allow get: if isSignedIn() && configId == 'global';
+      allow list: if false;
+      allow create: if isSuperAdmin() && configId == 'global' &&
+                       isValidAppConfig(incoming()) &&
+                       incoming().keys().hasAll(['appName', 'aratName', 'defaultCommissionPercent', 'defaultKuliRate', 'welcomeBanner', 'qualityGrades', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['appName', 'aratName', 'defaultCommissionPercent', 'defaultKuliRate', 'welcomeBanner', 'qualityGrades', 'updatedAt']);
+      allow update: if isSuperAdmin() && configId == 'global' &&
+                       isValidAppConfig(incoming()) &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['appName', 'aratName', 'defaultCommissionPercent', 'defaultKuliRate', 'welcomeBanner', 'qualityGrades', 'updatedAt']);
+      allow delete: if false;
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isSuperAdmin();
+      allow list: if isSuperAdmin();
+      allow create: if isOwner(userId) && isValidId(userId) &&
+                       isValidUserProfile(incoming(), userId) &&
+                       incoming().keys().hasAll(['userId', 'email', 'displayName', 'aratName', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['userId', 'email', 'displayName', 'aratName', 'createdAt', 'updatedAt']);
+      allow update: if isOwner(userId) && isValidId(userId) &&
+                       isValidUserProfile(incoming(), userId) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['email', 'displayName', 'aratName', 'updatedAt']);
+      allow delete: if false;
+
+      match /drafts/{draftId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(draftId) &&
+                         isValidDraft(incoming(), userId) &&
+                         incoming().keys().hasAll(['userId', 'dateText', 'displayDate', 'aratName', 'supplierName', 'grades', 'commissionPercent', 'kuliExpense', 'otherExpense', 'chalanNote', 'paymentMethod', 'signatureText', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'dateText', 'displayDate', 'aratName', 'supplierName', 'grades', 'commissionPercent', 'kuliExpense', 'otherExpense', 'chalanNote', 'paymentMethod', 'signatureText', 'updatedAt']);
+        allow update: if isOwner(userId) && isValidId(draftId) &&
+                         isValidDraft(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['dateText', 'displayDate', 'aratName', 'supplierName', 'grades', 'commissionPercent', 'kuliExpense', 'otherExpense', 'chalanNote', 'paymentMethod', 'signatureText', 'updatedAt']);
+        allow delete: if isOwner(userId) && isValidId(draftId);
+      }
+
+      match /ledgers/{ledgerId} {
+        allow get: if isOwner(userId) && isValidId(ledgerId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(ledgerId) &&
+                         isValidLedger(incoming(), userId) &&
+                         incoming().keys().hasAll(['userId', 'dateText', 'displayDate', 'aratName', 'supplierName', 'grades', 'commissionPercent', 'kuliExpense', 'otherExpense', 'chalanNote', 'paymentMethod', 'signatureText', 'totalCartons', 'totalWeightKg', 'grossSales', 'commissionAmount', 'netPayable', 'deleted', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'dateText', 'displayDate', 'aratName', 'supplierName', 'grades', 'commissionPercent', 'kuliExpense', 'otherExpense', 'chalanNote', 'paymentMethod', 'signatureText', 'totalCartons', 'totalWeightKg', 'grossSales', 'commissionAmount', 'netPayable', 'deleted', 'createdAt', 'updatedAt']);
+        allow update: if isOwner(userId) && isValidId(ledgerId) &&
+                         isValidLedger(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['dateText', 'displayDate', 'aratName', 'supplierName', 'grades', 'commissionPercent', 'kuliExpense', 'otherExpense', 'chalanNote', 'paymentMethod', 'signatureText', 'totalCartons', 'totalWeightKg', 'grossSales', 'commissionAmount', 'netPayable', 'deleted', 'updatedAt']);
+        allow delete: if isOwner(userId) && isValidId(ledgerId);
+      }
+
+      match /expenses/{expenseId} {
+        allow get: if isOwner(userId) && isValidId(expenseId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(expenseId) &&
+                         isValidExpense(incoming(), userId) &&
+                         incoming().keys().hasAll(['userId', 'dateText', 'category', 'description', 'amount', 'deleted', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'dateText', 'category', 'description', 'amount', 'deleted', 'createdAt', 'updatedAt']);
+        allow update: if isOwner(userId) && isValidId(expenseId) &&
+                         isValidExpense(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['dateText', 'category', 'description', 'amount', 'deleted', 'updatedAt']);
+        allow delete: if isOwner(userId) && isValidId(expenseId);
+      }
+
+      match /trash_items/{trashId} {
+        allow get: if isOwner(userId) && isValidId(trashId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(trashId) &&
+                         isValidTrashItem(incoming(), userId) &&
+                         incoming().keys().hasAll(['userId', 'itemType', 'gradeName', 'weightKg', 'ratePerKg', 'cartonWeights', 'createdAt']) &&
+                         incoming().keys().hasOnly(['userId', 'itemType', 'gradeName', 'weightKg', 'ratePerKg', 'cartonWeights', 'createdAt']);
+        allow update: if false;
+        allow delete: if isOwner(userId) && isValidId(trashId);
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "250708751456",
+    "project_id": "strawberryaratpro",
+    "storage_bucket": "strawberryaratpro.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250708751456:android:0d846ae185ac3def84bf05",
+        "android_client_info": {
+          "package_name": "com.strawberry.aratpro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiiZTrCkylvUqGdf7rrhq-SRqPuuL1HA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

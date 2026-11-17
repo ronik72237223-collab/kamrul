@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.16"
+        android:scaleY="0.16"
+        android:translateX="-0.4"
+        android:translateY="1.2">
+        <!-- Shadow under crate -->
+        <path
+            android:fillColor="#14000000"
+            android:pathData="M190,540a150,14 0,1 0,300 0a150,14 0,1 0,-300 0z" />
+        <!-- Left emerald crate flap -->
+        <path
+            android:pathData="M205,338 L300,338 L262,260 L172,284 Z"
+            android:strokeWidth="6"
+            android:strokeColor="#0A8F5A"
+            android:strokeLineJoin="round">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:startX="172"
+                    android:startY="260"
+                    android:endX="300"
+                    android:endY="338"
+                    android:type="linear">
+                    <item android:offset="0" android:color="#FF2FD08F" />
+                    <item android:offset="1" android:color="#FF0A8F5A" />
+                </gradient>
+            </aapt:attr>
+        </path>
+        <!-- Right emerald crate flap -->
+        <path
+            android:fillColor="#0A8F5A"
+            android:pathData="M475,338 L380,338 L418,260 L508,284 Z"
+            android:strokeWidth="6"
+            android:strokeColor="#0A8F5A"
+            android:strokeLineJoin="round" />
+        <!-- Strawberry body -->
+        <path android:pathData="M340,226 C390,208 432,232 430,282 C428,336 384,372 340,396 C296,372 252,336 250,282 C248,232 290,208 340,226 Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:startX="286"
+                    android:startY="216"
+                    android:endX="394"
+                    android:endY="396"
+                    android:type="linear">
+                    <item android:offset="0" android:color="#FFFF4D63" />
+                    <item android:offset="0.55" android:color="#FFE0122F" />
+                    <item android:offset="1" android:color="#FFA80C28" />
+                </gradient>
+            </aapt:attr>
+        </path>
+        <!-- Strawberry shading -->
+        <path
+            android:fillColor="#59A80C28"
+            android:pathData="M340,226 C390,208 432,232 430,282 C429,318 412,346 388,366 C418,330 418,262 384,238 C368,228 354,224 340,226 Z" />
+        <!-- Strawberry seeds -->
+        <path
+            android:fillColor="#99FFE3E6"
+            android:pathData="M296,300a4,7 0,1 0,8 0a4,7 0,1 0,-8 0zM340,282a4,7 0,1 0,8 0a4,7 0,1 0,-8 0zM386,296a4,7 0,1 0,8 0a4,7 0,1 0,-8 0zM318,326a4,7 0,1 0,8 0a4,7 0,1 0,-8 0zM364,324a4,7 0,1 0,8 0a4,7 0,1 0,-8 0zM270,318a4,7 0,1 0,8 0a4,7 0,1 0,-8 0zM404,326a4,7 0,1 0,8 0a4,7 0,1 0,-8 0z" />
+        <!-- Strawberry calyx leaves -->
+        <path
+            android:fillColor="#17B877"
+            android:pathData="M340,230 C314,198 274,200 258,224 C286,238 318,244 340,230 Z" />
+        <path
+            android:fillColor="#0FA066"
+            android:pathData="M340,230 C366,198 406,200 422,224 C394,238 362,244 340,230 Z" />
+        <path
+            android:fillColor="#2FD08F"
+            android:pathData="M340,232 C324,198 330,170 348,150 C362,176 358,208 340,232 Z" />
+        <!-- Golden crate box -->
+        <path
+            android:pathData="M205,338 L475,338 L450,508 L230,508 Z"
+            android:strokeWidth="10"
+            android:strokeColor="#D49A3A"
+            android:strokeLineJoin="round">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:startX="340"
+                    android:startY="338"
+                    android:endX="340"
+                    android:endY="508"
+                    android:type="linear">
+                    <item android:offset="0" android:color="#FFEDBB63" />
+                    <item android:offset="1" android:color="#FFD49A3A" />
+                </gradient>
+            </aapt:attr>
+        </path>
+        <!-- Crate top rim shadow -->
+        <path
+            android:fillColor="#73B97F26"
+            android:pathData="M205,338 L475,338 L473,354 L207,354 Z" />
+        <!-- Emerald crate label band -->
+        <path android:pathData="M213,392 L467,392 L455,484 L225,484 Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:startX="340"
+                    android:startY="392"
+                    android:endX="340"
+                    android:endY="484"
+                    android:type="linear">
+                    <item android:offset="0" android:color="#FF14A870" />
+                    <item android:offset="1" android:color="#FF0A7F50" />
+                </gradient>
+            </aapt:attr>
+        </path>
+        <!-- Clean Pro badge bars on emerald band -->
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M266,426 L360,426 L360,446 L266,446 Z" />
+        <path
+            android:fillColor="#FFFFE08A"
+            android:pathData="M374,426 L414,426 L414,446 L374,446 Z" />
+    </group>
+</vector>
