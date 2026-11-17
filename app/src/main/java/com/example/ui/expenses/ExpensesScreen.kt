@@ -62,8 +62,11 @@ import com.example.ui.theme.CrateAmberTint
 import com.example.ui.theme.EmeraldDark
 import com.example.ui.theme.EmeraldGreen
 import com.example.ui.theme.EmeraldTint
+import com.example.ui.theme.SlateInk
+import com.example.ui.theme.SlateMuted
 import com.example.ui.theme.StrawberryRed
 import com.example.ui.theme.StrawberrySoftBg
+import com.example.ui.theme.appTextFieldColors
 import com.example.util.BengaliFormatter
 
 @Composable
@@ -173,12 +176,13 @@ fun ExpensesScreen(
                                 )
                                 Text(
                                     text = "এখনো কোনো হাতখরচ যোগ করা হয়নি",
-                                    style = MaterialTheme.typography.titleSmall
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = SlateInk
                                 )
                                 Text(
                                     text = "অটো ভাড়া, নাস্তা বা কুলি খরচ সহজে লিখে রাখুন",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = SlateMuted
                                 )
                             }
                         }
@@ -261,7 +265,7 @@ private fun ExpenseRowCard(
                     Text(
                         text = expense.dateText,
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = SlateMuted
                     )
                 }
 
@@ -269,7 +273,7 @@ private fun ExpenseRowCard(
                     Text(
                         text = expense.description,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = SlateInk
                     )
                 }
             }
@@ -288,7 +292,7 @@ private fun ExpenseRowCard(
                     Icon(
                         Icons.Rounded.Edit,
                         contentDescription = "খরচ সম্পাদনা",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        tint = SlateMuted,
                         modifier = Modifier.size(19.dp)
                     )
                 }
@@ -328,12 +332,18 @@ private fun ExpenseDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
+        containerColor = Color.White,
+        titleContentColor = SlateInk,
+        textContentColor = SlateMuted,
         title = {
-            Text(if (initial == null) "নতুন হাতখরচ যোগ" else "হাতখরচ সম্পাদনা")
+            Text(
+                text = if (initial == null) "নতুন হাতখরচ যোগ" else "হাতখরচ সম্পাদনা",
+                color = SlateInk
+            )
         },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                Text("খরচের খাত বেছে নিন:", style = MaterialTheme.typography.labelLarge)
+                Text("খরচের খাত বেছে নিন:", style = MaterialTheme.typography.labelLarge, color = SlateInk)
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalArrangement = Arrangement.spacedBy(6.dp)
@@ -344,6 +354,8 @@ private fun ExpenseDialog(
                             onClick = { selectedCategory = cat },
                             label = { Text(cat) },
                             colors = FilterChipDefaults.filterChipColors(
+                                containerColor = Color.White,
+                                labelColor = SlateMuted,
                                 selectedContainerColor = EmeraldTint,
                                 selectedLabelColor = EmeraldDark
                             )
@@ -357,6 +369,7 @@ private fun ExpenseDialog(
                     label = { Text("টাকার পরিমাণ (৳)") },
                     placeholder = { Text("যেমন: ১৫০") },
                     singleLine = true,
+                    colors = appTextFieldColors(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
@@ -368,6 +381,7 @@ private fun ExpenseDialog(
                     label = { Text("বিবরণ (ঐচ্ছিক)") },
                     placeholder = { Text("যেমন: বাজার থেকে আড়ত ভ্যান ভাড়া") },
                     singleLine = true,
+                    colors = appTextFieldColors(),
                     shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -394,13 +408,16 @@ private fun ExpenseDialog(
                         onConfirm(selectedCategory, description.trim(), amt)
                     }
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = EmeraldGreen)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = EmeraldGreen,
+                    contentColor = Color.White
+                )
             ) {
-                Text("সংরক্ষণ")
+                Text("সংরক্ষণ", color = Color.White)
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("বাতিল") }
+            TextButton(onClick = onDismiss) { Text("বাতিল", color = SlateInk) }
         }
     )
 }

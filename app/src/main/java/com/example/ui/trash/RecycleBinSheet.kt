@@ -43,9 +43,11 @@ import com.example.data.model.AratLedger
 import com.example.data.model.DailyExpense
 import com.example.data.model.TrashItem
 import com.example.data.model.TrashItemType
+import com.example.ui.theme.BentoBackground
 import com.example.ui.theme.BentoBorder
 import com.example.ui.theme.EmeraldGreen
-import com.example.ui.theme.EmeraldSoftBg
+import com.example.ui.theme.SlateInk
+import com.example.ui.theme.SlateMuted
 import com.example.ui.theme.StrawberryRed
 import com.example.ui.theme.StrawberrySoftBg
 import com.example.util.BengaliFormatter
@@ -71,7 +73,8 @@ fun RecycleBinSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = Color(0xFFF8FAFC)
+        containerColor = BentoBackground,
+        contentColor = SlateInk
     ) {
         Column(
             modifier = Modifier
@@ -88,12 +91,13 @@ fun RecycleBinSheet(
                     Text(
                         text = "রিসাইকেল বিন (Trash Bin)",
                         style = MaterialTheme.typography.titleLarge,
+                        color = SlateInk,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = "মুছে ফেলা সব ডাটা এখান থেকে ১ ট্যাপে ফিরিয়ে আনুন",
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = SlateMuted
                     )
                 }
 
@@ -128,7 +132,8 @@ fun RecycleBinSheet(
                         )
                         Text(
                             text = "রিসাইকেল বিন খালি আছে",
-                            style = MaterialTheme.typography.titleSmall
+                            style = MaterialTheme.typography.titleSmall,
+                            color = SlateInk
                         )
                     }
                 }
@@ -220,8 +225,8 @@ private fun TrashEntryCard(
                 }
             }
 
-            Text(title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-            Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(title, style = MaterialTheme.typography.titleSmall, color = SlateInk, fontWeight = FontWeight.Bold)
+            Text(subtitle, style = MaterialTheme.typography.bodySmall, color = SlateMuted)
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -230,14 +235,17 @@ private fun TrashEntryCard(
                 Button(
                     onClick = onRestore,
                     shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = EmeraldGreen),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = EmeraldGreen,
+                        contentColor = Color.White
+                    ),
                     modifier = Modifier
                         .weight(1f)
                         .height(44.dp)
                 ) {
                     Icon(Icons.Rounded.RestoreFromTrash, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("ফিরিয়ে আনুন")
+                    Text("ফিরিয়ে আনুন", color = Color.White)
                 }
 
                 OutlinedButton(

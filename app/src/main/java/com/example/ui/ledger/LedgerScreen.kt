@@ -59,8 +59,11 @@ import com.example.ui.theme.BentoBorder
 import com.example.ui.theme.EmeraldDark
 import com.example.ui.theme.EmeraldGreen
 import com.example.ui.theme.EmeraldSoftBg
+import com.example.ui.theme.SlateInk
+import com.example.ui.theme.SlateMuted
 import com.example.ui.theme.StrawberryRed
 import com.example.ui.theme.StrawberrySoftBg
+import com.example.ui.theme.appTextFieldColors
 import com.example.util.BengaliFormatter
 import com.example.util.WhatsAppExporter
 
@@ -132,12 +135,13 @@ fun LedgerScreen(
                                     Text(
                                         text = "হিসাব খাতা ও এক্সেল রিপোর্ট",
                                         style = MaterialTheme.typography.titleMedium,
+                                        color = SlateInk,
                                         fontWeight = FontWeight.Bold
                                     )
                                     Text(
                                         text = "${BengaliFormatter.formatInt(filtered.size)} টি হিসাব • ${BengaliFormatter.formatInt(totalCartons)} কার্টুন • ${BengaliFormatter.formatKg(totalWeight)}",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        color = SlateMuted
                                     )
                                 }
                                 Surface(
@@ -158,7 +162,10 @@ fun LedgerScreen(
                                 onClick = { onExportExcel(filtered) },
                                 enabled = !isExporting,
                                 shape = RoundedCornerShape(14.dp),
-                                colors = ButtonDefaults.buttonColors(containerColor = EmeraldGreen),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = EmeraldGreen,
+                                    contentColor = Color.White
+                                ),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(52.dp)
@@ -168,7 +175,8 @@ fun LedgerScreen(
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
                                     text = if (isExporting) "এক্সেল তৈরি হচ্ছে..." else "এক্সেল ডাউনলোড করুন (.xlsx)",
-                                    style = MaterialTheme.typography.titleSmall
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = Color.White
                                 )
                             }
                         }
@@ -183,6 +191,7 @@ fun LedgerScreen(
                         placeholder = { Text("মালিকের নাম, আড়ত বা তারিখ দিয়ে খুঁজুন...") },
                         leadingIcon = { Icon(Icons.Rounded.Search, contentDescription = null) },
                         singleLine = true,
+                        colors = appTextFieldColors(),
                         shape = RoundedCornerShape(16.dp),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -209,12 +218,13 @@ fun LedgerScreen(
                                 )
                                 Text(
                                     text = "খাতায় এখনো কোনো হিসাব সংরক্ষিত নেই",
-                                    style = MaterialTheme.typography.titleSmall
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = SlateInk
                                 )
                                 Text(
                                     text = "আজকের হিসাব ট্যাব থেকে 'খাতায় সেভ' বাটনে চাপলে এখানে চলে আসবে",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = SlateMuted
                                 )
                             }
                         }
@@ -332,7 +342,7 @@ private fun AccountingBookTable(
                                 onClick = { onEdit(ledger) },
                                 modifier = Modifier.size(38.dp)
                             ) {
-                                Icon(Icons.Rounded.Edit, contentDescription = "সম্পাদনা", modifier = Modifier.size(18.dp))
+                                Icon(Icons.Rounded.Edit, contentDescription = "সম্পাদনা", tint = SlateMuted, modifier = Modifier.size(18.dp))
                             }
                             IconButton(
                                 onClick = { onShare(ledger) },
@@ -374,7 +384,7 @@ private fun TableHeaderCell(text: String, width: Dp) {
 private fun TableBodyCell(
     text: String,
     width: Dp,
-    color: Color = MaterialTheme.colorScheme.onSurface,
+    color: Color = SlateInk,
     bold: Boolean = false
 ) {
     Text(
@@ -416,12 +426,13 @@ private fun LedgerQuickCard(
                     Text(
                         text = ledger.supplierName.ifBlank { ledger.aratName },
                         style = MaterialTheme.typography.titleSmall,
+                        color = SlateInk,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = "${ledger.displayDate} • ${ledger.paymentMethod}",
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = SlateMuted
                     )
                 }
                 Surface(shape = RoundedCornerShape(10.dp), color = StrawberrySoftBg) {
@@ -438,7 +449,7 @@ private fun LedgerQuickCard(
             Text(
                 text = ledger.qualityBreakdownText(),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = SlateMuted
             )
 
             Row(
@@ -453,7 +464,7 @@ private fun LedgerQuickCard(
                 )
                 Row {
                     IconButton(onClick = onEdit, modifier = Modifier.minimumInteractiveComponentSize()) {
-                        Icon(Icons.Rounded.Edit, contentDescription = "সম্পাদনা", modifier = Modifier.size(19.dp))
+                        Icon(Icons.Rounded.Edit, contentDescription = "সম্পাদনা", tint = SlateMuted, modifier = Modifier.size(19.dp))
                     }
                     IconButton(onClick = onShare, modifier = Modifier.minimumInteractiveComponentSize()) {
                         Icon(Icons.Rounded.Share, contentDescription = "হোয়াটসঅ্যাপ", tint = EmeraldGreen, modifier = Modifier.size(19.dp))

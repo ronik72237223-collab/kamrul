@@ -79,10 +79,13 @@ import com.example.ui.theme.EmeraldDark
 import com.example.ui.theme.EmeraldGreen
 import com.example.ui.theme.EmeraldSoftBg
 import com.example.ui.theme.EmeraldTint
+import com.example.ui.theme.SlateInk
+import com.example.ui.theme.SlateMuted
 import com.example.ui.theme.StrawberryDark
 import com.example.ui.theme.StrawberryRed
 import com.example.ui.theme.StrawberrySoftBg
 import com.example.ui.theme.StrawberryTint
+import com.example.ui.theme.appTextFieldColors
 import com.example.util.BengaliFormatter
 import com.example.util.WhatsAppExporter
 
@@ -196,7 +199,7 @@ fun CalculatorScreen(
                 Text(
                     text = "কোয়ালিটি অনুযায়ী কার্টুন হিসাব",
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = SlateInk
                 )
                 Surface(
                     shape = RoundedCornerShape(50),
@@ -337,9 +340,9 @@ fun CalculatorScreen(
                         .height(48.dp)
                         .testTag("new_calculation_button")
                 ) {
-                    Icon(Icons.Rounded.Refresh, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Icon(Icons.Rounded.Refresh, contentDescription = null, tint = SlateInk, modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("নতুন হিসাব শুরু করুন")
+                    Text("নতুন হিসাব শুরু করুন", color = SlateInk)
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -397,9 +400,15 @@ fun CalculatorScreen(
     if (showSaveConfirmDialog) {
         AlertDialog(
             onDismissRequest = { showSaveConfirmDialog = false },
-            title = { Text("খাতায় হিসাব সংরক্ষণ") },
+            containerColor = Color.White,
+            titleContentColor = SlateInk,
+            textContentColor = SlateMuted,
+            title = { Text("খাতায় হিসাব সংরক্ষণ", color = SlateInk) },
             text = {
-                Text("সংরক্ষণ করার পর কি এই হিসাব পরিষ্কার করে নতুন চালানের হিসাব শুরু করতে চান?")
+                Text(
+                    "সংরক্ষণ করার পর কি এই হিসাব পরিষ্কার করে নতুন চালানের হিসাব শুরু করতে চান?",
+                    color = SlateMuted
+                )
             },
             confirmButton = {
                 Button(
@@ -407,9 +416,12 @@ fun CalculatorScreen(
                         showSaveConfirmDialog = false
                         onSaveLedger(true)
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = EmeraldGreen)
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = EmeraldGreen,
+                        contentColor = Color.White
+                    )
                 ) {
-                    Text("সেভ ও নতুন শুরু")
+                    Text("সেভ ও নতুন শুরু", color = Color.White)
                 }
             },
             dismissButton = {
@@ -419,7 +431,7 @@ fun CalculatorScreen(
                         onSaveLedger(false)
                     }
                 ) {
-                    Text("শুধু সেভ করুন")
+                    Text("শুধু সেভ করুন", color = SlateInk)
                 }
             }
         )
@@ -432,6 +444,7 @@ private fun HeroSummaryBento(state: CalculatorState) {
         // Big Highlighted Net Payable Card
         Card(
             shape = RoundedCornerShape(24.dp),
+            colors = CardDefaults.cardColors(containerColor = StrawberryRed),
             elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -440,7 +453,7 @@ private fun HeroSummaryBento(state: CalculatorState) {
                     .fillMaxWidth()
                     .background(
                         Brush.linearGradient(
-                            colors = listOf(StrawberryRed, Color(0xFFBE123C), Color(0xFF9F1239))
+                            colors = listOf(StrawberryRed, Color(0xFFB80222))
                         )
                     )
                     .padding(20.dp)
@@ -454,11 +467,11 @@ private fun HeroSummaryBento(state: CalculatorState) {
                         Text(
                             text = "মালিকের নিট পাওনা টাকা",
                             style = MaterialTheme.typography.titleSmall,
-                            color = Color.White.copy(alpha = 0.9f)
+                            color = Color.White
                         )
                         Surface(
                             shape = RoundedCornerShape(50),
-                            color = Color.White.copy(alpha = 0.18f)
+                            color = Color.White.copy(alpha = 0.2f)
                         ) {
                             Text(
                                 text = state.displayDate,
@@ -484,12 +497,12 @@ private fun HeroSummaryBento(state: CalculatorState) {
                         Text(
                             text = "মোট বিক্রয়: ${BengaliFormatter.formatTaka(state.grossSales)}",
                             style = MaterialTheme.typography.labelMedium,
-                            color = Color.White.copy(alpha = 0.88f)
+                            color = Color.White.copy(alpha = 0.94f)
                         )
                         Text(
                             text = "মোট কর্তন: ${BengaliFormatter.formatTaka(state.totalDeductions)}",
                             style = MaterialTheme.typography.labelMedium,
-                            color = Color(0xFFFDE68A)
+                            color = Color.White.copy(alpha = 0.94f)
                         )
                     }
                 }
@@ -506,7 +519,7 @@ private fun HeroSummaryBento(state: CalculatorState) {
                 value = "${BengaliFormatter.formatInt(state.totalCartons)} টি",
                 icon = Icons.Rounded.Inventory2,
                 tint = StrawberryRed,
-                bg = StrawberrySoftBg,
+                bg = Color.White,
                 modifier = Modifier.weight(1f)
             )
             BentoStatTile(
@@ -514,7 +527,7 @@ private fun HeroSummaryBento(state: CalculatorState) {
                 value = BengaliFormatter.formatKg(state.totalWeightKg),
                 icon = Icons.Rounded.Scale,
                 tint = EmeraldGreen,
-                bg = EmeraldSoftBg,
+                bg = Color.White,
                 modifier = Modifier.weight(1f)
             )
             BentoStatTile(
@@ -522,7 +535,7 @@ private fun HeroSummaryBento(state: CalculatorState) {
                 value = BengaliFormatter.formatTaka(state.weightedAverageRate),
                 icon = Icons.Rounded.Payments,
                 tint = CrateAmber,
-                bg = CrateAmberTint.copy(alpha = 0.45f),
+                bg = Color.White,
                 modifier = Modifier.weight(1f)
             )
         }
@@ -541,7 +554,7 @@ private fun BentoStatTile(
     Surface(
         shape = RoundedCornerShape(18.dp),
         color = bg,
-        border = BorderStroke(1.dp, tint.copy(alpha = 0.2f)),
+        border = BorderStroke(1.dp, BentoBorder),
         modifier = modifier
     ) {
         Column(
@@ -557,14 +570,14 @@ private fun BentoStatTile(
             Text(
                 text = title,
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = SlateMuted,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = value,
                 style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = SlateInk,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -631,7 +644,7 @@ private fun QualityGradeCard(
                     Text(
                         text = "${BengaliFormatter.formatInt(grade.totalCartons)} কার্টুন",
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = SlateMuted
                     )
                 }
 
@@ -645,7 +658,7 @@ private fun QualityGradeCard(
                         Icon(
                             imageVector = Icons.Rounded.Edit,
                             contentDescription = "${grade.name} সম্পাদনা করুন",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            tint = SlateMuted,
                             modifier = Modifier.size(20.dp)
                         )
                     }
@@ -681,6 +694,7 @@ private fun QualityGradeCard(
                     label = { Text("বিক্রয় দর (৳/কেজি)") },
                     placeholder = { Text("০") },
                     singleLine = true,
+                    colors = appTextFieldColors(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     shape = RoundedCornerShape(14.dp),
                     modifier = Modifier
@@ -691,7 +705,10 @@ private fun QualityGradeCard(
                 Button(
                     onClick = onQuickAddCarton,
                     shape = RoundedCornerShape(14.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = StrawberryRed),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = StrawberryRed,
+                        contentColor = Color.White
+                    ),
                     contentPadding = PaddingValues(horizontal = 14.dp, vertical = 0.dp),
                     modifier = Modifier
                         .height(54.dp)
@@ -699,7 +716,7 @@ private fun QualityGradeCard(
                 ) {
                     Icon(Icons.Rounded.Add, contentDescription = null, modifier = Modifier.size(20.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("কার্টুন যোগ", style = MaterialTheme.typography.labelLarge)
+                    Text("কার্টুন যোগ", style = MaterialTheme.typography.labelLarge, color = Color.White)
                 }
             }
 
@@ -730,7 +747,7 @@ private fun QualityGradeCard(
                                     Text(
                                         text = "#${BengaliFormatter.formatInt(index + 1)}: ${BengaliFormatter.formatNumber(weight)} কেজি",
                                         style = MaterialTheme.typography.labelLarge,
-                                        color = EmeraldDark
+                                        color = SlateInk
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Icon(
@@ -759,7 +776,7 @@ private fun QualityGradeCard(
                 Text(
                     text = "এখনো কোনো কার্টুন যোগ করা হয়নি — '+ কার্টুন যোগ' বাটনে ট্যাপ করুন",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = SlateMuted
                 )
             }
 
@@ -774,6 +791,7 @@ private fun QualityGradeCard(
                 Text(
                     text = "মোট নিট ওজন: ${BengaliFormatter.formatKg(grade.totalWeightKg)}",
                     style = MaterialTheme.typography.bodyMedium,
+                    color = SlateInk,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
@@ -830,7 +848,7 @@ private fun DeductionsBentoCard(
             Text(
                 text = "কর্তন ও খরচ (Deductions)",
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                color = SlateInk
             )
 
             Row(
@@ -850,6 +868,7 @@ private fun DeductionsBentoCard(
                     },
                     label = { Text("আড়ত কমিশন (%)") },
                     singleLine = true,
+                    colors = appTextFieldColors(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.weight(1f)
@@ -861,7 +880,7 @@ private fun DeductionsBentoCard(
                     modifier = Modifier.weight(1f)
                 ) {
                     Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)) {
-                        Text("কমিশন টাকা", style = MaterialTheme.typography.labelSmall)
+                        Text("কমিশন টাকা", style = MaterialTheme.typography.labelSmall, color = SlateMuted)
                         Text(
                             text = BengaliFormatter.formatTaka(state.commissionAmount),
                             style = MaterialTheme.typography.titleSmall,
@@ -889,6 +908,7 @@ private fun DeductionsBentoCard(
                     label = { Text("কুলি খরচ (৳)") },
                     placeholder = { Text("০") },
                     singleLine = true,
+                    colors = appTextFieldColors(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.weight(1f)
@@ -907,6 +927,7 @@ private fun DeductionsBentoCard(
                     label = { Text("অন্যান্য খরচ (৳)") },
                     placeholder = { Text("০") },
                     singleLine = true,
+                    colors = appTextFieldColors(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.weight(1f)
@@ -941,7 +962,8 @@ private fun ChalanMetadataCard(
                 Icon(Icons.Rounded.LocalShipping, contentDescription = null, tint = EmeraldGreen)
                 Text(
                     text = "চালান নোট ও পেমেন্ট তথ্য",
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
+                    color = SlateInk
                 )
             }
 
@@ -952,6 +974,7 @@ private fun ChalanMetadataCard(
                 },
                 label = { Text("আড়তের নাম") },
                 singleLine = true,
+                colors = appTextFieldColors(),
                 shape = RoundedCornerShape(14.dp),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -964,6 +987,7 @@ private fun ChalanMetadataCard(
                 label = { Text("মালিক / মহাজনের নাম") },
                 placeholder = { Text("যেমন: হাজী রহিম উদ্দিন") },
                 singleLine = true,
+                colors = appTextFieldColors(),
                 shape = RoundedCornerShape(14.dp),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -977,13 +1001,15 @@ private fun ChalanMetadataCard(
                 placeholder = { Text("যেমন: ঢাকা মেট্রো-ট ১১-২২৩৩, ০১৭..., ফল একদম ফ্রেশ") },
                 minLines = 2,
                 maxLines = 4,
+                colors = appTextFieldColors(),
                 shape = RoundedCornerShape(14.dp),
                 modifier = Modifier.fillMaxWidth()
             )
 
             Text(
                 text = "পেমেন্ট মাধ্যম",
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.labelLarge,
+                color = SlateInk
             )
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -997,6 +1023,8 @@ private fun ChalanMetadataCard(
                         },
                         label = { Text(method) },
                         colors = FilterChipDefaults.filterChipColors(
+                            containerColor = Color.White,
+                            labelColor = SlateMuted,
                             selectedContainerColor = EmeraldTint,
                             selectedLabelColor = EmeraldDark
                         )
@@ -1012,6 +1040,7 @@ private fun ChalanMetadataCard(
                 label = { Text("স্বাক্ষর / সুপারভাইজার নাম") },
                 placeholder = { Text("আপনার স্বাক্ষর লিখুন") },
                 singleLine = true,
+                colors = appTextFieldColors(),
                 shape = RoundedCornerShape(14.dp),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -1037,10 +1066,14 @@ private fun CartonWeightDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
+        containerColor = Color.White,
+        titleContentColor = SlateInk,
+        textContentColor = SlateMuted,
         title = {
             Text(
                 text = if (target.index == null) "${target.gradeName}: নতুন কার্টুন ওজন"
-                else "${target.gradeName}: কার্টুন ওজন পরিবর্তন"
+                else "${target.gradeName}: কার্টুন ওজন পরিবর্তন",
+                color = SlateInk
             )
         },
         text = {
@@ -1048,7 +1081,7 @@ private fun CartonWeightDialog(
                 Text(
                     text = "কার্টুনের গায়ে লেখা নিট ওজন (কেজি) ট্যাপ করুন বা লিখুন:",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = SlateMuted
                 )
 
                 FlowRow(
@@ -1086,6 +1119,7 @@ private fun CartonWeightDialog(
                     label = { Text("কাস্টম নিট ওজন (কেজি)") },
                     placeholder = { Text("যেমন: ২.৭৫") },
                     singleLine = true,
+                    colors = appTextFieldColors(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
@@ -1106,16 +1140,19 @@ private fun CartonWeightDialog(
                         onConfirm(parsed)
                     }
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = StrawberryRed)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = StrawberryRed,
+                    contentColor = Color.White
+                )
             ) {
                 Icon(Icons.Rounded.CheckCircle, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(6.dp))
-                Text(if (target.index == null) "যোগ করুন" else "আপডেট")
+                Text(if (target.index == null) "যোগ করুন" else "আপডেট", color = Color.White)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("বাতিল")
+                Text("বাতিল", color = SlateInk)
             }
         }
     )
@@ -1138,7 +1175,10 @@ private fun GradeDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(title) },
+        containerColor = Color.White,
+        titleContentColor = SlateInk,
+        textContentColor = SlateMuted,
+        title = { Text(title, color = SlateInk) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 OutlinedTextField(
@@ -1147,6 +1187,7 @@ private fun GradeDialog(
                     label = { Text("কোয়ালিটি নাম") },
                     placeholder = { Text("যেমন: Super Jumbo") },
                     singleLine = true,
+                    colors = appTextFieldColors(),
                     shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -1156,6 +1197,7 @@ private fun GradeDialog(
                     label = { Text("বিক্রয় দর (৳/কেজি)") },
                     placeholder = { Text("০") },
                     singleLine = true,
+                    colors = appTextFieldColors(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
@@ -1175,13 +1217,16 @@ private fun GradeDialog(
                         onConfirm(name.trim(), rate)
                     }
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = StrawberryRed)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = StrawberryRed,
+                    contentColor = Color.White
+                )
             ) {
-                Text(confirmText)
+                Text(confirmText, color = Color.White)
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("বাতিল") }
+            TextButton(onClick = onDismiss) { Text("বাতিল", color = SlateInk) }
         }
     )
 }

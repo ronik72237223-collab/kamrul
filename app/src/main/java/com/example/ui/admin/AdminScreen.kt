@@ -55,10 +55,13 @@ import com.example.ui.theme.EmeraldDark
 import com.example.ui.theme.EmeraldGreen
 import com.example.ui.theme.EmeraldSoftBg
 import com.example.ui.theme.EmeraldTint
+import com.example.ui.theme.SlateInk
+import com.example.ui.theme.SlateMuted
 import com.example.ui.theme.StrawberryDark
 import com.example.ui.theme.StrawberryRed
 import com.example.ui.theme.StrawberrySoftBg
 import com.example.ui.theme.StrawberryTint
+import com.example.ui.theme.appTextFieldColors
 import com.example.util.BengaliFormatter
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -121,7 +124,7 @@ fun AdminScreen(
                         Text(
                             text = "এখান থেকে পুরো অ্যাপের সেটিংস রিয়েল-টাইমে নিয়ন্ত্রণ করুন",
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = SlateMuted
                         )
                     }
                 }
@@ -143,6 +146,7 @@ fun AdminScreen(
                     Text(
                         text = "অ্যাপ ও আড়ত সেটিংস",
                         style = MaterialTheme.typography.titleMedium,
+                        color = SlateInk,
                         fontWeight = FontWeight.Bold
                     )
 
@@ -151,6 +155,7 @@ fun AdminScreen(
                         onValueChange = { appName = it },
                         label = { Text("অ্যাপের নাম (App Name)") },
                         singleLine = true,
+                        colors = appTextFieldColors(),
                         shape = RoundedCornerShape(14.dp),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -160,6 +165,7 @@ fun AdminScreen(
                         onValueChange = { aratName = it },
                         label = { Text("ডিফল্ট আড়তের নাম") },
                         singleLine = true,
+                        colors = appTextFieldColors(),
                         shape = RoundedCornerShape(14.dp),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -173,6 +179,7 @@ fun AdminScreen(
                             onValueChange = { commissionText = it },
                             label = { Text("ডিফল্ট কমিশন (%)") },
                             singleLine = true,
+                            colors = appTextFieldColors(),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                             shape = RoundedCornerShape(14.dp),
                             modifier = Modifier.weight(1f)
@@ -182,6 +189,7 @@ fun AdminScreen(
                             onValueChange = { kuliText = it },
                             label = { Text("ডিফল্ট কুলি খরচ (৳)") },
                             singleLine = true,
+                            colors = appTextFieldColors(),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                             shape = RoundedCornerShape(14.dp),
                             modifier = Modifier.weight(1f)
@@ -194,13 +202,15 @@ fun AdminScreen(
                         label = { Text("ওয়েলকাম নোটিশ / ব্যানার টেক্সট") },
                         minLines = 2,
                         maxLines = 4,
+                        colors = appTextFieldColors(),
                         shape = RoundedCornerShape(14.dp),
                         modifier = Modifier.fillMaxWidth()
                     )
 
                     Text(
                         text = "ডিফল্ট কোয়ালিটি গ্রেডসমূহ",
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge,
+                        color = SlateInk
                     )
 
                     FlowRow(
@@ -252,6 +262,7 @@ fun AdminScreen(
                             onValueChange = { newGradeText = it },
                             label = { Text("নতুন গ্রেড যোগ করুন") },
                             singleLine = true,
+                            colors = appTextFieldColors(),
                             shape = RoundedCornerShape(14.dp),
                             modifier = Modifier.weight(1f)
                         )
@@ -264,7 +275,10 @@ fun AdminScreen(
                                 }
                             },
                             shape = RoundedCornerShape(14.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = StrawberryRed),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = StrawberryRed,
+                                contentColor = Color.White
+                            ),
                             modifier = Modifier.height(54.dp)
                         ) {
                             Icon(Icons.Rounded.Add, contentDescription = "যোগ করুন")
@@ -288,7 +302,10 @@ fun AdminScreen(
                         },
                         enabled = !isSaving,
                         shape = RoundedCornerShape(16.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = EmeraldGreen),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = EmeraldGreen,
+                            contentColor = Color.White
+                        ),
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(52.dp)
@@ -296,7 +313,7 @@ fun AdminScreen(
                     ) {
                         Icon(Icons.Rounded.Save, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("লাইভ সেটিংস আপডেট করুন")
+                        Text("লাইভ সেটিংস আপডেট করুন", color = Color.White)
                     }
                 }
             }
@@ -313,6 +330,7 @@ fun AdminScreen(
                 Text(
                     text = "নিবন্ধিত ব্যবহারকারী (${BengaliFormatter.formatInt(users.size)} জন)",
                     style = MaterialTheme.typography.titleMedium,
+                    color = SlateInk,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -339,12 +357,13 @@ fun AdminScreen(
                         Text(
                             text = user.displayName.ifBlank { "নামহীন ব্যবহারকারী" },
                             style = MaterialTheme.typography.titleSmall,
+                            color = SlateInk,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
                             text = user.email,
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = SlateMuted
                         )
                         if (user.aratName.isNotBlank()) {
                             Text(

@@ -34,6 +34,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -69,7 +70,10 @@ import com.example.ui.admin.AdminScreen
 import com.example.ui.calculator.CalculatorScreen
 import com.example.ui.expenses.ExpensesScreen
 import com.example.ui.ledger.LedgerScreen
+import com.example.ui.theme.BentoBackground
 import com.example.ui.theme.EmeraldGreen
+import com.example.ui.theme.SlateInk
+import com.example.ui.theme.SlateMuted
 import com.example.ui.theme.StrawberryRed
 import com.example.ui.theme.StrawberryTint
 import com.example.ui.trash.RecycleBinSheet
@@ -154,13 +158,17 @@ fun MainScreen(
         val useRail = maxWidth >= 600.dp
 
         Scaffold(
+            containerColor = BentoBackground,
+            contentColor = SlateInk,
             contentWindowInsets = WindowInsets(0, 0, 0, 0),
             snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
             topBar = {
                 TopAppBar(
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = Color.White,
-                        titleContentColor = MaterialTheme.colorScheme.onSurface
+                        titleContentColor = SlateInk,
+                        actionIconContentColor = SlateInk,
+                        navigationIconContentColor = SlateInk
                     ),
                     title = {
                         Row(
@@ -176,6 +184,7 @@ fun MainScreen(
                                 Text(
                                     text = appConfig.appName.ifBlank { "স্ট্রবেরি আড়ত প্রো" },
                                     style = MaterialTheme.typography.titleMedium,
+                                    color = SlateInk,
                                     fontWeight = FontWeight.Bold,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
@@ -202,7 +211,7 @@ fun MainScreen(
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.Undo,
                                 contentDescription = "পূর্বাবস্থায় ফিরুন (Undo)",
-                                tint = if (canUndo) StrawberryRed else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.28f)
+                                tint = if (canUndo) StrawberryRed else SlateMuted.copy(alpha = 0.35f)
                             )
                         }
 
@@ -216,7 +225,7 @@ fun MainScreen(
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.Redo,
                                 contentDescription = "পুনরায় করুন (Redo)",
-                                tint = if (canRedo) EmeraldGreen else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.28f)
+                                tint = if (canRedo) EmeraldGreen else SlateMuted.copy(alpha = 0.35f)
                             )
                         }
 
@@ -230,7 +239,10 @@ fun MainScreen(
                             BadgedBox(
                                 badge = {
                                     if (totalTrashCount > 0) {
-                                        Badge(containerColor = StrawberryRed) {
+                                        Badge(
+                                            containerColor = StrawberryRed,
+                                            contentColor = Color.White
+                                        ) {
                                             Text(BengaliFormatter.formatInt(totalTrashCount))
                                         }
                                     }
@@ -238,7 +250,8 @@ fun MainScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.DeleteOutline,
-                                    contentDescription = "রিসাইকেল বিন"
+                                    contentDescription = "রিসাইকেল বিন",
+                                    tint = SlateInk
                                 )
                             }
                         }
@@ -251,7 +264,8 @@ fun MainScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.Logout,
-                                contentDescription = "লগআউট"
+                                contentDescription = "লগআউট",
+                                tint = SlateInk
                             )
                         }
                     }
@@ -259,7 +273,10 @@ fun MainScreen(
             },
             bottomBar = {
                 if (!useRail) {
-                    NavigationBar(containerColor = Color.White) {
+                    NavigationBar(
+                        containerColor = Color.White,
+                        contentColor = SlateInk
+                    ) {
                         visibleTabs.forEach { tab ->
                             NavigationBarItem(
                                 selected = selectedTab == tab,
@@ -275,6 +292,8 @@ fun MainScreen(
                                 colors = NavigationBarItemDefaults.colors(
                                     selectedIconColor = StrawberryRed,
                                     selectedTextColor = StrawberryRed,
+                                    unselectedIconColor = SlateMuted,
+                                    unselectedTextColor = SlateMuted,
                                     indicatorColor = StrawberryTint
                                 ),
                                 modifier = Modifier.testTag("nav_tab_${tab.name.lowercase()}")
@@ -292,6 +311,7 @@ fun MainScreen(
                 if (useRail) {
                     NavigationRail(
                         containerColor = Color.White,
+                        contentColor = SlateInk,
                         modifier = Modifier.fillMaxHeight()
                     ) {
                         visibleTabs.forEach { tab ->
@@ -299,7 +319,14 @@ fun MainScreen(
                                 selected = selectedTab == tab,
                                 onClick = { selectedTab = tab },
                                 icon = { Icon(tab.icon, contentDescription = tab.label) },
-                                label = { Text(tab.label) }
+                                label = { Text(tab.label) },
+                                colors = NavigationRailItemDefaults.colors(
+                                    selectedIconColor = StrawberryRed,
+                                    selectedTextColor = StrawberryRed,
+                                    unselectedIconColor = SlateMuted,
+                                    unselectedTextColor = SlateMuted,
+                                    indicatorColor = StrawberryTint
+                                )
                             )
                         }
                     }
@@ -379,8 +406,11 @@ fun MainScreen(
     if (showSignOutDialog) {
         AlertDialog(
             onDismissRequest = { showSignOutDialog = false },
-            title = { Text("লগআউট করবেন?") },
-            text = { Text("আপনার সব হিসাব নিরাপদে সংরক্ষিত আছে। লগআউট করতে চান?") },
+            containerColor = Color.White,
+            titleContentColor = SlateInk,
+            textContentColor = SlateMuted,
+            title = { Text("লগআউট করবেন?", color = SlateInk) },
+            text = { Text("আপনার সব হিসাব নিরাপদে সংরক্ষিত আছে। লগআউট করতে চান?", color = SlateMuted) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -393,7 +423,7 @@ fun MainScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showSignOutDialog = false }) {
-                    Text("থাকুন")
+                    Text("থাকুন", color = SlateInk)
                 }
             }
         )

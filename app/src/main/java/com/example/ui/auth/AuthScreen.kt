@@ -61,11 +61,17 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.R
+import com.example.ui.theme.BentoBackground
+import com.example.ui.theme.BentoSurfaceVariant
 import com.example.ui.theme.EmeraldGreen
 import com.example.ui.theme.EmeraldSoftBg
+import com.example.ui.theme.SlateInk
+import com.example.ui.theme.SlateMuted
+import com.example.ui.theme.StrawberryDark
 import com.example.ui.theme.StrawberryRed
 import com.example.ui.theme.StrawberrySoftBg
 import com.example.ui.theme.StrawberryTint
+import com.example.ui.theme.appTextFieldColors
 
 @Composable
 fun AuthScreen(
@@ -129,7 +135,7 @@ fun AuthScreen(
                 Text(
                     text = "ডিজিটাল কার্টুন হিসাব, খাতা ও এক্সেল রিপোর্ট",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = SlateMuted,
                     textAlign = TextAlign.Center
                 )
 
@@ -138,7 +144,7 @@ fun AuthScreen(
                 // Mode Switcher Pill
                 Surface(
                     shape = RoundedCornerShape(16.dp),
-                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    color = BentoSurfaceVariant,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
@@ -159,7 +165,7 @@ fun AuthScreen(
                                 Text(
                                     text = "লগইন করুন",
                                     style = MaterialTheme.typography.titleSmall,
-                                    color = if (!state.isSignUpMode) StrawberryRed else MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = if (!state.isSignUpMode) StrawberryRed else SlateMuted
                                 )
                             }
                         }
@@ -178,7 +184,7 @@ fun AuthScreen(
                                 Text(
                                     text = "নতুন অ্যাকাউন্ট",
                                     style = MaterialTheme.typography.titleSmall,
-                                    color = if (state.isSignUpMode) EmeraldGreen else MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = if (state.isSignUpMode) EmeraldGreen else SlateMuted
                                 )
                             }
                         }
@@ -209,6 +215,7 @@ fun AuthScreen(
                                         Icon(Icons.Rounded.Person, contentDescription = null)
                                     },
                                     singleLine = true,
+                                    colors = appTextFieldColors(),
                                     shape = RoundedCornerShape(14.dp),
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -224,6 +231,7 @@ fun AuthScreen(
                                         Icon(Icons.Rounded.Storefront, contentDescription = null)
                                     },
                                     singleLine = true,
+                                    colors = appTextFieldColors(),
                                     shape = RoundedCornerShape(14.dp),
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -241,6 +249,7 @@ fun AuthScreen(
                                 Icon(Icons.Rounded.Email, contentDescription = null)
                             },
                             singleLine = true,
+                            colors = appTextFieldColors(),
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Email,
                                 imeAction = ImeAction.Next
@@ -268,6 +277,7 @@ fun AuthScreen(
                             },
                             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                             singleLine = true,
+                            colors = appTextFieldColors(),
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Password,
                                 imeAction = if (state.isSignUpMode) ImeAction.Next else ImeAction.Done
@@ -288,6 +298,7 @@ fun AuthScreen(
                                 },
                                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                                 singleLine = true,
+                                colors = appTextFieldColors(),
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Password,
                                     imeAction = ImeAction.Done
@@ -305,7 +316,7 @@ fun AuthScreen(
                                 horizontalArrangement = Arrangement.End
                             ) {
                                 TextButton(onClick = viewModel::sendPasswordReset) {
-                                    Text("পাসওয়ার্ড ভুলে গেছেন?")
+                                    Text("পাসওয়ার্ড ভুলে গেছেন?", color = StrawberryRed)
                                 }
                             }
                         }
@@ -318,7 +329,7 @@ fun AuthScreen(
                             ) {
                                 Text(
                                     text = err,
-                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    color = StrawberryDark,
                                     style = MaterialTheme.typography.bodySmall,
                                     modifier = Modifier.padding(12.dp)
                                 )
@@ -373,12 +384,12 @@ fun AuthScreen(
 
                 Surface(
                     shape = CircleShape,
-                    color = Color.White.copy(alpha = 0.85f)
+                    color = Color.White
                 ) {
                     Text(
                         text = "আপনার প্রতিটি হিসাব নিরাপদে আপনার নিজস্ব অ্যাকাউন্টে সংরক্ষিত থাকবে",
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = SlateMuted,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                     )
